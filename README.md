@@ -5,6 +5,7 @@ Every java based application has a few objects that work together to present wha
 
 Consider you have an application which has a text editor component and you want to provide spell checking. Your standard code would look something like this:
 
+```java
 public class TextEditor {
    private SpellChecker spellChecker;
    
@@ -12,9 +13,12 @@ public class TextEditor {
       spellChecker = new SpellChecker();
    }
 }
+```
+
 
 What we've done here is create a dependency between the TextEditor and the SpellChecker. In an inversion of control scenario we would instead do something like this:
 
+```java
 public class TextEditor {
    private SpellChecker spellChecker;
    
@@ -22,6 +26,7 @@ public class TextEditor {
       this.spellChecker = spellChecker;
    }
 }
+```
 
 Here TextEditor should not worry about SpellChecker implementation. The SpellChecker will be implemented independently and will be provided to TextEditor at the time of TextEditor instantiation and this entire procedure is controlled by the Spring Framework.
 
@@ -37,6 +42,7 @@ The following example shows a class TextEditor that can only be dependency-injec
 
 Here is the content of TextEditor.java file:
 
+```java
 package spring.example.dependency.injection;
 
 public class TextEditor {
@@ -50,9 +56,11 @@ public class TextEditor {
       spellChecker.checkSpelling();
    }
 }
+```
 
 Following is the content of another dependent class file SpellChecker.java:
 
+```java
 package spring.example.dependency.injection;
 
 public class SpellChecker {
@@ -65,8 +73,11 @@ public class SpellChecker {
    }
    
 }
+```
+
 Following is the content of the MainApp.java file:
 
+```java
 package spring.example.dependency.injection;
 
 import org.springframework.context.ApplicationContext;
@@ -82,9 +93,11 @@ public class MainApp {
       te.spellCheck();
    }
 }
+```
 
 Following is the configuration file Beans.xml which has configuration for the constructor-based injection:
 
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -93,21 +106,24 @@ Following is the configuration file Beans.xml which has configuration for the co
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
    <!-- Definition for textEditor bean -->
-   <bean id="textEditor" class="com.tutorialspoint.TextEditor">
+   <bean id="textEditor" class="spring.example.dependency.injection.TextEditor">
       <constructor-arg ref="spellChecker"/>
    </bean>
 
    <!-- Definition for spellChecker bean -->
-   <bean id="spellChecker" class="com.tutorialspoint.SpellChecker">
+   <bean id="spellChecker" class="spring.example.dependency.injection.SpellChecker">
    </bean>
 
 </beans>
+```
 
 Once you are done with creating source and bean configuration files, let us run the application. If everything is fine with your application, this will print the following message:
 
+```sh
 Inside SpellChecker constructor.
 Inside TextEditor constructor.
 Inside checkSpelling.
+```
 
 ## Setter based DI
 Setter-based DI is accomplished by the container calling setter methods on your beans after invoking a no-argument constructor or no-argument static factory method to instantiate your bean.
@@ -116,6 +132,7 @@ Example:
 The following example shows a class TextEditor that can only be dependency-injected using pure setter-based injection.
 Here is the content of TextEditor.java file:
 
+```java
 package spring.example.dependency.injection;
 
 public class TextEditor {
@@ -135,8 +152,10 @@ public class TextEditor {
       spellChecker.checkSpelling();
    }
 }
+```
 Here you need to check naming convention of the setter methods. To set a variable spellChecker we are using setSpellChecker() method which is very similar to Java POJO classes. Let us create the content of another dependent class file SpellChecker.java:
 
+```java
 package spring.example.dependency.injection;
 
 public class SpellChecker {
@@ -149,8 +168,11 @@ public class SpellChecker {
    }
    
 }
+```
+
 Following is the content of the MainApp.java file:
 
+```java
 package spring.example.dependency.injection;
 
 import org.springframework.context.ApplicationContext;
@@ -166,8 +188,11 @@ public class MainApp {
       te.spellCheck();
    }
 }
+```
+
 Following is the configuration file Beans.xml which has configuration for the setter-based injection:
 
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -185,6 +210,7 @@ Following is the configuration file Beans.xml which has configuration for the se
    </bean>
 
 </beans>
+```
 
 You should note the difference in Beans.xml file defined in constructor-based injection and setter-based injection. The only difference is inside the <bean> element where we have used <constructor-arg> tags for constructor-based injection and <property> tags for setter-based injection.
 
@@ -192,6 +218,8 @@ Second important point to note is that in case you are passing a reference to an
 
 Once you are done with creating source and bean configuration files, let us run the application. If everything is fine with your application, this will print the following message:
 
+```sh
 Inside SpellChecker constructor.
 Inside setSpellChecker.
 Inside checkSpelling.
+```
