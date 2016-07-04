@@ -1,5 +1,5 @@
 # dependency-injection-xml
-This example shows how to deal with Dependency Injection (DI) in Spring MVC.
+This example shows how to deal with Dependency Injection (DI) in Spring MVC by using xml configuration files.
 
 Every java based application has a few objects that work together to present what the end-user sees as a working application. When writing a complex Java application, application classes should be as independent as possible of other Java classes to increase the possibility to reuse these classes and to test them independently of other classes while doing unit testing. Dependency Injection (or sometime called wiring) helps in gluing these classes together and same time keeping them independent.
 
@@ -201,12 +201,12 @@ Following is the configuration file Beans.xml which has configuration for the se
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
    <!-- Definition for textEditor bean -->
-   <bean id="textEditor" class="com.tutorialspoint.TextEditor">
+   <bean id="textEditor" class="spring.example.dependency.injection.TextEditor">
       <property name="spellChecker" ref="spellChecker"/>
    </bean>
 
    <!-- Definition for spellChecker bean -->
-   <bean id="spellChecker" class="com.tutorialspoint.SpellChecker">
+   <bean id="spellChecker" class="spring.example.dependency.injection.SpellChecker">
    </bean>
 
 </beans>
